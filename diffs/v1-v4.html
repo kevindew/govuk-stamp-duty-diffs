@@ -1,7 +1,123 @@
+<style>
+  .form-label {
+    display: inline;
+  }
+  .compare-select {
+    display: inline;
+    width: auto;
+  }
+  .compare-form {
+    background-color: #eee;
+  }
+  .compare-form .form-group {
+    margin-bottom: 0;
+    padding: 10px 0;
+    text-align: center;
+  }
+
+  .diff { margin-bottom: 1em; }
+
+  .diff td {
+    border: 0;
+    padding: 2px 5px;
+  }
+
+  .diff .diff-line {
+    display: block;
+    border: 2px solid #ccc;
+    border-radius: 2px;
+
+  }
+
+  .diff .level-1 { padding-left: 1em }
+  .diff .level-2 { padding-left: 2em }
+  .diff . { padding-left: 3em }
+
+  .diff .spacer { text-align: center; font-style: italic; }
+
+  .diff-line-inserted,
+  .diff-line-modified.diff-line-with-inserts {
+      background: #9f9;
+      border-left: 1px solid #1a981f;
+      border-right: 1px solid #1a981f
+  }
+  .diff-line-inserted.start,
+  .start.diff-line-modified.diff-line-with-inserts {
+      border-top: 1px solid #1a981f
+  }
+  .diff-line-inserted.end,
+  .end.diff-line-modified.diff-line-with-inserts {
+      border-bottom: 1px solid #1a981f
+  }
+  .diff-line-modified.diff-line-with-removes,
+  .diff-line-removed {
+      background: #f88;
+      border-left: 1px solid #9a2328;
+      border-right: 1px solid #9a2328
+  }
+  .diff-line-removed.start,
+  .start.diff-line-modified.diff-line-with-removes {
+      border-top: 1px solid #9a2328
+  }
+  .diff-line-removed.end,
+  .end.diff-line-modified.diff-line-with-removes {
+      border-bottom: 1px solid #9a2328
+  }
+  .diff-line-empty {
+      background: #ccc!important;
+      border-left: 1px solid #888!important;
+      border-right: 1px solid #888!important
+  }
+  .diff-line-empty.start {
+      border-top: 1px solid #888!important
+  }
+  .diff-line-empty.end {
+      border-bottom: 1px solid #888!important
+  }
+  .diff-line-modified.diff-line-with-inserts {
+      background: #e0fcd0
+  }
+  .diff-line-modified.diff-line-with-removes {
+      background: #fcd8d9
+  }
+  .diff-line-modified .diff-chunk-inserted {
+      background: #9f9
+  }
+  .diff-line-modified .diff-chunk-removed {
+      background: #f88
+  }
+
+  .diff-table td, .diff-table th { font-family: monospace; font-size: 12px; }
+  .diff-table td { border: 0; padding: 0; }
+
+  .diff-checker .diff-output .diff-line {  white-space: pre-wrap; word-break: break-all; }
+
+
+.diff-checker .diff-table-container{display:flex;flex-direction:row;align-items:stretch}.diff-checker .diff-table-container .diff-table{clear:right;background:#fff;width:100%}.diff-checker .diff-table-container .diff-table .diff-line-inserted,.diff-checker .diff-table-container .diff-table .diff-line-modified.diff-line-with-inserts{background:#9f9;border-left:1px solid #1a981f;border-right:1px solid #1a981f}.diff-checker .diff-table-container .diff-table .diff-line-inserted.start,.diff-checker .diff-table-container .diff-table .start.diff-line-modified.diff-line-with-inserts{border-top:1px solid #1a981f}.diff-checker .diff-table-container .diff-table .diff-line-inserted.end,.diff-checker .diff-table-container .diff-table .end.diff-line-modified.diff-line-with-inserts{border-bottom:1px solid #1a981f}.diff-checker .diff-table-container .diff-table .diff-line-modified.diff-line-with-removes,.diff-checker .diff-table-container .diff-table .diff-line-removed{background:#f88;border-left:1px solid #9a2328;border-right:1px solid #9a2328}.diff-checker .diff-table-container .diff-table .diff-line-removed.start,.diff-checker .diff-table-container .diff-table .start.diff-line-modified.diff-line-with-removes{border-top:1px solid #9a2328}.diff-checker .diff-table-container .diff-table .diff-line-removed.end,.diff-checker .diff-table-container .diff-table .end.diff-line-modified.diff-line-with-removes{border-bottom:1px solid #9a2328}.diff-checker .diff-table-container .diff-table .diff-line-empty{background:#ccc!important;border-left:1px solid #888!important;border-right:1px solid #888!important}.diff-checker .diff-table-container .diff-table .diff-line-empty.start{border-top:1px solid #888!important}.diff-checker .diff-table-container .diff-table .diff-line-empty.end{border-bottom:1px solid #888!important}.diff-checker .diff-table-container .diff-table .diff-line-modified.diff-line-with-inserts{background:#e0fcd0}.diff-checker .diff-table-container .diff-table .diff-line-modified.diff-line-with-removes{background:#fcd8d9}.diff-checker .diff-table-container .diff-table .diff-line-modified .diff-chunk-inserted{background:#9f9}.diff-checker .diff-table-container .diff-table .diff-line-modified .diff-chunk-removed{background:#f88}.diff-checker .diff-table-container .diff-table td.diff-line-number{color:#666;padding:0 4px;text-align:right}.diff-checker .diff-table-container .diff-table td.diff-line-number:before{content:attr(data-content)}.diff-checker .diff-table-container .diff-table td.diff-line{margin:0 1px;width:50%}.diff-checker .diff-table-content{flex:1 1 auto}
+
+  .diff-checker, .grid-row.compare-form { margin-left: -150px; margin-right: -150px; }
+
+  .diff-line-number { vertical-align: top; }
+
+  .diff-line-modified.diff-line-with-removes, .diff-line-modified.diff-line-with-inserts { border: 0 !important; }
+
+  .diff-checker .diff-table-container .diff-table .diff-line-empty, .diff-checker .diff-table-container .diff-table .diff-line-empty.end { border: 0 !important; }
+
+  .section-without-changes .diff-row { display: none; }
+  .section-without-changes .spacer td { text-align: center; background-color: #eee; padding: 2px 0; font-family: arial; }
+
+  .section-without-changes.visible .diff-row { display: table-row; }
+  .section-without-changes.visible .spacer { display: none; }
+
+  strong { font-weight: bold; }
+</style>
 <div class="diff-table-container" data-reactid="41">
   <div class="diff-table-content" data-reactid="42">
     <table class="diff-table" data-reactid="43">
-      <tbody data-reactid="44">
+      <tbody class="section-without-changes">
+        <tr class="spacer">
+          <td colspan="4">... <a href="#" class="expander">[+]</a></td>
+        </tr>
         <tr class="diff-row">
           <td class="diff-line-number" data-content="1."></td>
           <td class="diff-line start"><span class="diff-chunk diff-chunk-equal"><strong>title:</strong> Pay Stamp Duty Land Tax</span></td>
@@ -32,6 +148,8 @@
           <td class="diff-line-number" data-content="5."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal"><strong>publishing_app:</strong> whitehall</span></td>
         </tr>
+      </tbody>
+      <tbody class="section-with-changes">
         <tr class="diff-row">
           <td class="diff-line-number" data-content="6."></td>
           <td class="diff-line end"><span class="diff-chunk diff-chunk-equal"><strong>redirects:</strong> []</span></td>
@@ -98,6 +216,11 @@
           <td class="diff-line-number" data-content="15."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">    &lt;p&gt;&lt;abbr title="Stamp Duty Land Tax"&gt;SDLT&lt;/abbr&gt; is paid when property is bought or transferred in the UK.&lt;/p&gt;</span></td>
         </tr>
+      </tbody>
+      <tbody class="section-without-changes">
+        <tr class="spacer">
+          <td colspan="4">... <a href="#" class="expander">[+]</a></td>
+        </tr>
         <tr class="diff-row">
           <td class="diff-line-number" data-content="17."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal"></span></td>
@@ -302,6 +425,8 @@
           <td class="diff-line-number" data-content="49."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">      &lt;tbody&gt;</span></td>
         </tr>
+      </tbody>
+      <tbody class="section-with-changes">
         <tr class="diff-row">
           <td class="diff-line-number" data-content="51."></td>
           <td class="diff-line end"><span class="diff-chunk diff-chunk-equal">        &lt;tr&gt;</span></td>
@@ -344,6 +469,11 @@
           <td class="diff-line-number" data-content="56."></td>
           <td class="diff-line start"><span class="diff-chunk diff-chunk-equal">          &lt;td&gt;Same or next day&lt;/td&gt;</span></td>
         </tr>
+      </tbody>
+      <tbody class="section-without-changes">
+        <tr class="spacer">
+          <td colspan="4">... <a href="#" class="expander">[+]</a></td>
+        </tr>
         <tr class="diff-row">
           <td class="diff-line-number" data-content="58."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">        &lt;/tr&gt;</span></td>
@@ -422,6 +552,8 @@
           <td class="diff-line-number" data-content="69."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">        &lt;/tr&gt;</span></td>
         </tr>
+      </tbody>
+      <tbody class="section-with-changes">
         <tr class="diff-row">
           <td class="diff-line-number" data-content="71."></td>
           <td class="diff-line end"><span class="diff-chunk diff-chunk-equal">        &lt;tr&gt;</span></td>
@@ -439,6 +571,11 @@
           <td class="diff-line start"><span class="diff-chunk diff-chunk-equal">          &lt;td&gt;3 working days&lt;/td&gt;</span></td>
           <td class="diff-line-number" data-content="72."></td>
           <td class="diff-line start"><span class="diff-chunk diff-chunk-equal">          &lt;td&gt;3 working days&lt;/td&gt;</span></td>
+        </tr>
+      </tbody>
+      <tbody class="section-without-changes">
+        <tr class="spacer">
+          <td colspan="4">... <a href="#" class="expander">[+]</a></td>
         </tr>
         <tr class="diff-row">
           <td class="diff-line-number" data-content="74."></td>
@@ -830,6 +967,8 @@
           <td class="diff-line-number" data-content="137."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">      &lt;tbody&gt;</span></td>
         </tr>
+      </tbody>
+      <tbody class="section-with-changes">
         <tr class="diff-row">
           <td class="diff-line-number" data-content="139."></td>
           <td class="diff-line end"><span class="diff-chunk diff-chunk-equal">        &lt;tr&gt;</span></td>
@@ -853,6 +992,11 @@
           <td class="diff-line start"><span class="diff-chunk diff-chunk-equal">          &lt;td&gt;</span></td>
           <td class="diff-line-number" data-content="141."></td>
           <td class="diff-line start"><span class="diff-chunk diff-chunk-equal">          &lt;td&gt;</span></td>
+        </tr>
+      </tbody>
+      <tbody class="section-without-changes">
+        <tr class="spacer">
+          <td colspan="4">... <a href="#" class="expander">[+]</a></td>
         </tr>
         <tr class="diff-row">
           <td class="diff-line-number" data-content="143."></td>
@@ -890,6 +1034,8 @@
           <td class="diff-line-number" data-content="147."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">    &lt;p&gt;If you need to provide your bank with &lt;abbr title="HM Revenue and Customs"&gt;HMRC&lt;/abbr&gt;’s banking address it is:&lt;/p&gt;</span></td>
         </tr>
+      </tbody>
+      <tbody class="section-with-changes">
         <tr class="diff-row">
           <td class="diff-line-number" data-content="149."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal"></span></td>
@@ -956,6 +1102,11 @@
           <td class="diff-line-number" data-content="156."></td>
           <td class="diff-line start"><span class="diff-chunk diff-chunk-equal">    &lt;br&gt;</span></td>
         </tr>
+      </tbody>
+      <tbody class="section-without-changes">
+        <tr class="spacer">
+          <td colspan="4">... <a href="#" class="expander">[+]</a></td>
+        </tr>
         <tr class="diff-row">
           <td class="diff-line-number" data-content="159."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">    &lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</span></td>
@@ -980,6 +1131,8 @@
           <td class="diff-line-number" data-content="160."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal"></span></td>
         </tr>
+      </tbody>
+      <tbody class="section-with-changes">
         <tr class="diff-row">
           <td class="diff-line-number" data-content="163."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">    &lt;p&gt;You can &lt;a rel="external" href="https://www.tax.service.gov.uk/pay-online/stamp-duty"&gt;pay online&lt;/a&gt;.&lt;/p&gt;</span></td>
@@ -1082,6 +1235,11 @@
           <td class="diff-line-number" data-content="173."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">    &lt;p&gt;You’ll need your 11-character &lt;abbr title="Unique Transaction Reference Number"&gt;UTRN&lt;/abbr&gt;. You’ll find this on your paper return or on your electronic SDLT5 certificate.&lt;/p&gt;</span></td>
         </tr>
+      </tbody>
+      <tbody class="section-without-changes">
+        <tr class="spacer">
+          <td colspan="4">... <a href="#" class="expander">[+]</a></td>
+        </tr>
         <tr class="diff-row">
           <td class="diff-line-number" data-content="180."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal"></span></td>
@@ -1232,6 +1390,8 @@
           <td class="diff-line-number" data-content="198."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal"></span></td>
         </tr>
+      </tbody>
+      <tbody class="section-with-changes">
         <tr class="diff-row">
           <td class="diff-line-number" data-content="205."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">    &lt;h3 id="at-the-post-office"&gt;At the Post Office&lt;/h3&gt;</span></td>
@@ -1310,6 +1470,11 @@
           <td class="diff-line-number" data-content="211."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">    &lt;p&gt;Make sure that you either use:&lt;/p&gt;</span></td>
         </tr>
+      </tbody>
+      <tbody class="section-without-changes">
+        <tr class="spacer">
+          <td colspan="4">... <a href="#" class="expander">[+]</a></td>
+        </tr>
         <tr class="diff-row">
           <td class="diff-line-number" data-content="212."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal"></span></td>
@@ -1418,6 +1583,8 @@
           <td class="diff-line-number" data-content="229."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal"></span></td>
         </tr>
+      </tbody>
+      <tbody class="section-with-changes">
         <tr class="diff-row">
           <td class="diff-line-number" data-content="230."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">    &lt;p&gt;You should allow 3 working days for your payment to reach &lt;abbr title="HM Revenue and Customs"&gt;HMRC&lt;/abbr&gt;.&lt;/p&gt;</span></td>
@@ -1448,6 +1615,11 @@
           <td class="diff-line-number" data-content="234."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">    &lt;div class="address"&gt;&lt;div class="adr org fn"&gt;&lt;p&gt;</span></td>
         </tr>
+      </tbody>
+      <tbody class="section-without-changes">
+        <tr class="spacer">
+          <td colspan="4">... <a href="#" class="expander">[+]</a></td>
+        </tr>
         <tr class="diff-row">
           <td class="diff-line-number" data-content="235."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal"></span></td>
@@ -1496,6 +1668,8 @@
           <td class="diff-line-number" data-content="242."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">    &lt;br&gt;</span></td>
         </tr>
+      </tbody>
+      <tbody class="section-with-changes">
         <tr class="diff-row">
           <td class="diff-line-number" data-content="243."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">    &lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</span></td>
@@ -1592,6 +1766,11 @@
           <td class="diff-line-number" data-content="247."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal">    &lt;div class="address"&gt;&lt;div class="adr org fn"&gt;&lt;p&gt;</span></td>
         </tr>
+      </tbody>
+      <tbody class="section-without-changes">
+        <tr class="spacer">
+          <td colspan="4">... <a href="#" class="expander">[+]</a></td>
+        </tr>
         <tr class="diff-row">
           <td class="diff-line-number" data-content="259."></td>
           <td class="diff-line"><span class="diff-chunk diff-chunk-equal"></span></td>
@@ -1732,9 +1911,9 @@
         </tr>
         <tr class="diff-row">
           <td class="diff-line-number" data-content="282."></td>
-          <td class="diff-line start end diff-line-modified diff-line-with-removes"><span class="diff-chunk diff-chunk-equal">  <strong>- public_timestamp:</strong> </span><span class="diff-chunk diff-chunk-removed">'2015-12-02T14:31:42.000+00:00'</span></td>
+          <td class="diff-line"><span class="diff-chunk diff-chunk-equal">  <strong>- public_timestamp:</strong> '2015-12-02T14:31:42.000+00:00'</span></td>
           <td class="diff-line-number" data-content="271."></td>
-          <td class="diff-line start end diff-line-modified diff-line-with-inserts"><span class="diff-chunk diff-chunk-equal">  <strong>- public_timestamp:</strong> </span><span class="diff-chunk diff-chunk-inserted">'2015-12-30T14:13:00.000+00:00'</span></td>
+          <td class="diff-line"><span class="diff-chunk diff-chunk-equal">  <strong>- public_timestamp:</strong> '2015-12-30T14:31:42.000+00:00'</span></td>
         </tr>
         <tr class="diff-row">
           <td class="diff-line-number" data-content="283."></td>
@@ -1828,10 +2007,12 @@
         </tr>
         <tr class="diff-row">
           <td class="diff-line-number" data-content="298."></td>
-          <td class="diff-line start end diff-line-modified diff-line-with-removes"><span class="diff-chunk diff-chunk-equal">  <strong>first_public_at:</strong> </span><span class="diff-chunk diff-chunk-removed">'2015-12-02T14:31:42.000+00:00'</span></td>
+          <td class="diff-line"><span class="diff-chunk diff-chunk-equal">  <strong>first_public_at:</strong> '2015-12-02T14:31:42.000+00:00'</span></td>
           <td class="diff-line-number" data-content="287."></td>
-          <td class="diff-line start end diff-line-modified diff-line-with-inserts"><span class="diff-chunk diff-chunk-equal">  <strong>first_public_at:</strong> </span><span class="diff-chunk diff-chunk-inserted">'2015-12-30T14:13:00.000+00:00'</span></td>
+          <td class="diff-line"><span class="diff-chunk diff-chunk-equal">  <strong>first_public_at:</strong> '2015-12-30T14:31:42.000+00:00'</span></td>
         </tr>
+      </tbody>
+      <tbody class="section-with-changes">
         <tr class="diff-row">
           <td class="diff-line-number" data-content="299."></td>
           <td class="diff-line start end"><span class="diff-chunk diff-chunk-equal"><strong>document_type:</strong> detailed_guide</span></td>
@@ -1849,6 +2030,11 @@
           <td class="diff-line start"><span class="diff-chunk diff-chunk-equal"><strong>rendering_app:</strong> government-frontend</span></td>
           <td class="diff-line-number" data-content="290."></td>
           <td class="diff-line start"><span class="diff-chunk diff-chunk-equal"><strong>rendering_app:</strong> government-frontend</span></td>
+        </tr>
+      </tbody>
+      <tbody class="section-without-changes">
+        <tr class="spacer">
+          <td colspan="4">... <a href="#" class="expander">[+]</a></td>
         </tr>
         <tr class="diff-row">
           <td class="diff-line-number" data-content="302."></td>
@@ -1882,9 +2068,9 @@
         </tr>
         <tr class="diff-row">
           <td class="diff-line-number" data-content="307."></td>
-          <td class="diff-line start end diff-line-modified diff-line-with-removes"><span class="diff-chunk diff-chunk-equal"><strong>first_published_at:</strong> </span><span class="diff-chunk diff-chunk-removed">'2015-12-02T14:31:42.000+00:00'</span></td>
+          <td class="diff-line"><span class="diff-chunk diff-chunk-equal"><strong>first_published_at:</strong> '2015-12-02T14:31:42.000+00:00'</span></td>
           <td class="diff-line-number" data-content="296."></td>
-          <td class="diff-line start end diff-line-modified diff-line-with-inserts"><span class="diff-chunk diff-chunk-equal"><strong>first_published_at:</strong> </span><span class="diff-chunk diff-chunk-inserted">'2015-12-30T14:13:00.000+00:00'</span></td>
+          <td class="diff-line"><span class="diff-chunk diff-chunk-equal"><strong>first_published_at:</strong> '2015-12-30T14:31:42.000+00:00'</span></td>
         </tr>
       </tbody>
     </table>
